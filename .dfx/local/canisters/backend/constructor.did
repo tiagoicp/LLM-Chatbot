@@ -1,3 +1,0 @@
-type ChatMessage = record { content : text; role : Role };
-type Role = variant { user; system };
-service : { chat : (vec ChatMessage) -> (text); prompt : (text) -> (text) }

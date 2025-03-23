@@ -8,6 +8,7 @@ use prompts::get_system_prompt;
 // Import the icp_ledger plugin from the prompts module
 mod plugins;
 use plugins::icp_ledger_plugin::lookup_account;
+use plugins::icp_ledger_plugin::get_price;
 
 #[update]
 async fn prompt(prompt_str: String) -> String {
@@ -35,7 +36,11 @@ async fn chat(messages: Vec<ChatMessage>) -> String {
         
         lookup_account(&account).await        
     } else {
-        answer
+        let price = get_price().await;
+        match price {
+            Ok(a) => return "success".to_string(),
+            Err(x) => return x,
+        }
     }
 
 }
